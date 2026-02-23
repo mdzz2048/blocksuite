@@ -52,6 +52,7 @@ export type BaseElementProps = {
   index: string;
   seed: number;
   lockedBySelf?: boolean;
+  comments?: Record<string, boolean>;
 };
 
 export type SerializedElement = Record<string, unknown> & {
@@ -60,12 +61,12 @@ export type SerializedElement = Record<string, unknown> & {
   id: string;
   index: string;
   lockedBySelf?: boolean;
+  comments?: Record<string, boolean>;
   props: Record<string, unknown>;
 };
 export abstract class GfxPrimitiveElementModel<
   Props extends BaseElementProps = BaseElementProps,
-> implements GfxCompatibleInterface
-{
+> implements GfxCompatibleInterface {
   private _lastXYWH!: SerializedXYWH;
 
   protected _disposable = new DisposableGroup();
@@ -372,11 +373,14 @@ export abstract class GfxPrimitiveElementModel<
 
   @field()
   accessor seed!: number;
+
+  @field()
+  accessor comments: Record<string, boolean> | undefined = undefined;
 }
 
 export abstract class GfxGroupLikeElementModel<
-    Props extends BaseElementProps = BaseElementProps,
-  >
+  Props extends BaseElementProps = BaseElementProps,
+>
   extends GfxPrimitiveElementModel<Props>
   implements GfxGroupCompatibleInterface
 {
